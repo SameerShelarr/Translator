@@ -14,7 +14,7 @@ class TranslateUseCase(
         fromText: String,
         toLanguage: Language,
     ): Resource<String> {
-        try {
+        return try {
             val translatedText = client.translate(
                 fromLanguage = fromLanguage,
                 fromText = fromText,
@@ -29,9 +29,10 @@ class TranslateUseCase(
                     toText = translatedText,
                 )
             )
+            Resource.Success(translatedText)
         } catch (e: TranslateException) {
             e.printStackTrace()
-            Resource.Error<TranslateException>(throwable = e)
+            Resource.Error(throwable = e)
         }
     }
 }
